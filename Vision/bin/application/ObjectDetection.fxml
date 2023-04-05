@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GUIcontroller">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="frame">
+           <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="normalImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></AnchorPane>
+               </content>
+          </Tab>
+          <Tab text="mask">
+            <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="maskImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></AnchorPane>
+               </content>
+          </Tab>
+            <Tab text="morph">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="morphImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <right>
+      <VBox prefHeight="473.0" prefWidth="213.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="hue start" wrappingWidth="63.13671875" />
+            <Slider fx:id="hueStart" blockIncrement="1.0" max="360.0" value="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="hue end" wrappingWidth="63.13671875" />
+            <Slider fx:id="hueEnd" blockIncrement="1.0" max="360.0" value="50.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="saturation start" wrappingWidth="124.13671875" />
+            <Slider fx:id="saturationStart" blockIncrement="1.0" max="255.0" value="60.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="saturation end" wrappingWidth="160.13671875" />
+            <Slider fx:id="saturationEnd" blockIncrement="1.0" max="255.0" value="200.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="value start" wrappingWidth="63.13671875" />
+            <Slider fx:id="valueStart" blockIncrement="1.0" max="255.0" value="50.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="value end" wrappingWidth="63.13671875" />
+            <Slider fx:id="valueEnd" blockIncrement="1.0" max="255.0" value="255.0" />
+            <Button fx:id="startCamera" mnemonicParsing="false" prefHeight="49.0" prefWidth="213.0" text="start camera" onAction="#startCamera" />
+            <Button fx:id="stopCamera" mnemonicParsing="false" prefHeight="49.0" prefWidth="213.0" text="stop camera" onAction="#stopCamera"/>
+            <TextArea fx:id="hsvVals" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
