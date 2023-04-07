@@ -24,19 +24,19 @@
                      </children></AnchorPane>
                </content>
           </Tab>
-          <Tab text="mask">
+          <Tab text="processed">
             <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="maskImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="processedImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
                      </children></AnchorPane>
                </content>
           </Tab>
-            <Tab text="morph">
+            <Tab text="binary">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="morphImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="binaryImage" fitHeight="447.0" fitWidth="509.0" pickOnBounds="true" preserveRatio="true" />
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -46,21 +46,25 @@
    <right>
       <VBox prefHeight="473.0" prefWidth="213.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="hue start" wrappingWidth="63.13671875" />
-            <Slider fx:id="hueStart" blockIncrement="1.0" max="360.0" value="20.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="hue end" wrappingWidth="63.13671875" />
-            <Slider fx:id="hueEnd" blockIncrement="1.0" max="360.0" value="50.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="saturation start" wrappingWidth="124.13671875" />
-            <Slider fx:id="saturationStart" blockIncrement="1.0" max="255.0" value="60.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="saturation end" wrappingWidth="160.13671875" />
-            <Slider fx:id="saturationEnd" blockIncrement="1.0" max="255.0" value="200.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="value start" wrappingWidth="63.13671875" />
-            <Slider fx:id="valueStart" blockIncrement="1.0" max="255.0" value="50.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="value end" wrappingWidth="63.13671875" />
-            <Slider fx:id="valueEnd" blockIncrement="1.0" max="255.0" value="255.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minH" wrappingWidth="63.13671875" />
+            <Slider fx:id="minH" blockIncrement="1.0" max="360.0" value="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="maxH" wrappingWidth="63.13671875" />
+            <Slider fx:id="maxH" blockIncrement="1.0" max="360.0" value="50.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minS" wrappingWidth="124.13671875" />
+            <Slider fx:id="minS" blockIncrement="1.0" max="255.0" value="60.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="maxS" wrappingWidth="160.13671875" />
+            <Slider fx:id="maxS" blockIncrement="1.0" max="255.0" value="200.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minV" wrappingWidth="63.13671875" />
+            <Slider fx:id="minV" blockIncrement="1.0" max="255.0" value="50.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="maxV" wrappingWidth="63.13671875" />
+            <Slider fx:id="maxV" blockIncrement="1.0" max="255.0" value="255.0" />
             <Button fx:id="startCamera" mnemonicParsing="false" prefHeight="49.0" prefWidth="213.0" text="start camera" onAction="#startCamera" />
             <Button fx:id="stopCamera" mnemonicParsing="false" prefHeight="49.0" prefWidth="213.0" text="stop camera" onAction="#stopCamera"/>
             <TextArea fx:id="hsvVals" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea prefHeight="24.0" prefWidth="213.0" promptText="dilate" />
+            <Slider fx:id="dilate" prefHeight="25.0" prefWidth="96.0" blockIncrement="1.0" max="10" value="2" />
+            <TextArea prefHeight="24.0" prefWidth="213.0" promptText="erode" />
+            <Slider fx:id="erode" prefHeight="25.0" prefWidth="96.0" blockIncrement="1.0" max="10" value="2"/>
          </children>
       </VBox>
    </right>
