@@ -41,11 +41,9 @@ public class Program extends Application
 		}
 	}
 	
-	public static void main(String[] args)
-	{
-		// load the native OpenCV library
+	public static void main(String[] args){
+		//load OpenCV
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		
 		launch(args);
 	}
 }

@@ -18,7 +18,7 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
-
+//all of the functions here are copied from the internet and i have no idea how they work
 public final class Utils
 {
 	/**

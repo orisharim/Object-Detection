@@ -12,13 +12,9 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
-import extras.Utils;
-import javafx.scene.image.Image;
-
 public class Camera {
 	private Mat frame, binary, processed;
 	private VideoCapture video;
-	private int dilate, erode;
 	public Camera(VideoCapture video) {
 		frame = new Mat();
 		binary = new Mat();
@@ -32,29 +28,23 @@ public class Camera {
 		// get threshold values 
 		Scalar minValues = new Scalar(minH, minS, minV);
 		Scalar maxValues = new Scalar(maxH, maxS, maxV);
-		
-		this.dilate = dilate;
-		this.erode = erode;
 			
 			video.read(frame);
 			if (!frame.empty()) {			      
 				
-				// remove some noise
+				// clean some noise
 				Imgproc.blur(frame, frameBlur, new Size(7, 7));
 				
 				Core.inRange(frameBlur, minValues, maxValues, binary);
 				
 				pipeline(erode, dilate);
-				drawRects();
+				drawRect();
 
 			}
 			
 	}
 	
-
 	private void pipeline(int erode, int dilate) {
-		// morphological operators
-		// dilate with large element, erode with small ones
 		 Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(24, 24));
 		 Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(12, 12));
 		 
@@ -68,27 +58,11 @@ public class Camera {
 		 }
 	}
 	
-	private void drawRects() {
-		// init
+	private void drawRect() {
 		List<MatOfPoint> contours = new ArrayList<>();
 		Mat hierarchy = new Mat();
 
-		// find contours
 		Imgproc.findContours(processed, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-
-//		// if any contour exist...
-//		if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
-//		{
-//		        // for each contour, display it in blue
-//		        for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
-//		        {
-//		        	if()
-//		        		Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
-//		        }
-//		}
-	
-		Scalar color = new Scalar(0, 255, 0); // Green
-	    int thickness = 2;
 
 	    double maxArea = 0;
 	    Rect maxRect = new Rect();
@@ -101,8 +75,10 @@ public class Camera {
 	            maxRect = rect;
 	        }
 	    }
+	    
+		Scalar color = new Scalar(0, 255, 0); // Green
 
-	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, thickness);
+	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2);
 	}
 	
 	public Mat getFrame() {
