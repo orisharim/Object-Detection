@@ -23,6 +23,18 @@ public class Camera {
 		this.video = video;
 	}
 	
+	public Mat getFrame() {
+		return frame;		
+	}
+
+	public Mat getBinary() {
+		return binary;
+	}
+	
+	public Mat getProcessed() {
+		return processed;
+	}
+	
 	public void updateFrame(double minH, double maxH, double minS, double maxS, double minV, double maxV, int dilate, int erode) {
 		Mat frameBlur = new Mat();
 		// get threshold values 
@@ -39,7 +51,7 @@ public class Camera {
 				
 				pipeline(erode, dilate);
 				drawRect();
-
+				
 			}
 			
 	}
@@ -79,22 +91,12 @@ public class Camera {
 		Scalar color = new Scalar(0, 255, 0); // Green
 
 	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2);
-	}
-	
-	public Mat getFrame() {
-		return frame;		
-	}
-
-	public Mat getBinary() {
-		return binary;
-	}
-	
-	public Mat getProcessed() {
-		return processed;
+	    System.out.println("size: " + Math.abs(maxRect.tl().x - maxRect.br().x) * Math.abs(maxRect.tl().y - maxRect.br().y));
 	}
 	
 	
+	private double calcLength(double focalLength) {
+		return focalLength * 
+	}
 	
-	
-
 }
