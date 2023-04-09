@@ -15,6 +15,8 @@ import org.opencv.videoio.VideoCapture;
 public class Camera {
 	private Mat frame, binary, processed;
 	private VideoCapture video;
+	
+
 	public Camera(VideoCapture video) {
 		frame = new Mat();
 		binary = new Mat();
@@ -91,12 +93,25 @@ public class Camera {
 		Scalar color = new Scalar(0, 255, 0); // Green
 
 	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2);
-	    System.out.println("size: " + Math.abs(maxRect.tl().x - maxRect.br().x) * Math.abs(maxRect.tl().y - maxRect.br().y));
+//	    System.out.println("size: " + Math.abs(maxRect.tl().x - maxRect.br().x) * Math.abs(maxRect.tl().y - maxRect.br().y));
+//	    System.out.println(Math.abs(maxRect.tl().x - maxRect.br().x) );
+	    
+//	    System.out.println(getLength(7400/7.5, 15, Math.abs(maxRect.tl().x - maxRect.br().x)));
+	    System.out.println(getYaw(maxRect.tl().x , CameraSettings.HORIZONTAL_FOV, CameraSettings.RESOLUTION_X));
+	    
 	}
 	
 	
-	private double calcLength(double focalLength) {
-		return focalLength * 
+	private double getLength(double focalLength, double width, double pixels) {
+		return (focalLength * width) / pixels;
 	}
+	
+	private double getYaw(double targetPixelPosX, double horizontalFOV, int resolutionX) {
+		double ratio = horizontalFOV / resolutionX;
+		return (targetPixelPosX - resolutionX /2 ) * ratio;
+	}
+	
+	
+	
 	
 }
