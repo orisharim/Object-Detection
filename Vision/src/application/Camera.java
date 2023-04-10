@@ -93,17 +93,14 @@ public class Camera {
 		Scalar color = new Scalar(0, 255, 0); // Green
 
 	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2);
-//	    System.out.println("size: " + Math.abs(maxRect.tl().x - maxRect.br().x) * Math.abs(maxRect.tl().y - maxRect.br().y));
-//	    System.out.println(Math.abs(maxRect.tl().x - maxRect.br().x) );
-	    
-//	    System.out.println(getLength(7400/7.5, 15, Math.abs(maxRect.tl().x - maxRect.br().x)));
-	    System.out.println(getYaw(maxRect.tl().x , CameraSettings.HORIZONTAL_FOV, CameraSettings.RESOLUTION_X));
+
+	    System.out.println(getLength(7400/7.5, 19, 20, Math.abs(maxRect.tl().x - maxRect.br().x)));
 	    
 	}
 	
 	
-	private double getLength(double focalLength, double width, double pixels) {
-		return (focalLength * width) / pixels;
+	private double getLength(double focalLength, double height , double width, double pixels) {
+		return Math.max((focalLength * width) / pixels, (focalLength * height) / pixels);
 	}
 	
 	private double getYaw(double targetPixelPosX, double horizontalFOV, int resolutionX) {
