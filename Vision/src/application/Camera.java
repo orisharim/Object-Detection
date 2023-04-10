@@ -6,10 +6,12 @@ import java.util.List;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 import org.opencv.videoio.VideoCapture;
 
 public class Camera {
@@ -48,12 +50,11 @@ public class Camera {
 				
 				// clean some noise
 				Imgproc.blur(frame, frameBlur, new Size(7, 7));
-				
+				//find pixels in threshold
 				Core.inRange(frameBlur, minValues, maxValues, binary);
 				
 				pipeline(erode, dilate);
-				drawRect();
-				
+				drawCircle();
 			}
 			
 	}
@@ -72,35 +73,62 @@ public class Camera {
 		 }
 	}
 	
-	private void drawRect() {
-		List<MatOfPoint> contours = new ArrayList<>();
-		Mat hierarchy = new Mat();
+//	private void drawRect() {
+//		List<MatOfPoint> contours = new ArrayList<>();
+//		Mat hierarchy = new Mat();
+//
+//		Imgproc.findContours(processed, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
+//
+//	    double maxArea = 0;
+//	    Rect maxRect = new Rect();
+//
+//	    for (int i = 0; i < contours.size(); i++) {
+//	        Rect rect = Imgproc.boundingRect(contours.get(i));
+//	        double area = Imgproc.contourArea(contours.get(i));
+//	        if (area > maxArea) {
+//	            maxArea = area;
+//	            maxRect = rect;
+//	        }
+//	    }
+//	    
+//		Scalar color = new Scalar(0, 255, 0); // Green
+//		//draw rectangle
+//	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2)
+//	    
+//	    
+//	}
+	private void drawCircle() {
+	    List<MatOfPoint> contours = new ArrayList<>();
+	    Mat hierarchy = new Mat();
 
-		Imgproc.findContours(processed, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
+	    Imgproc.findContours(processed, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
 	    double maxArea = 0;
-	    Rect maxRect = new Rect();
+	    Point maxCenter = new Point();
+	    int maxRadius = 0;
 
 	    for (int i = 0; i < contours.size(); i++) {
-	        Rect rect = Imgproc.boundingRect(contours.get(i));
-	        double area = Imgproc.contourArea(contours.get(i));
+	        MatOfPoint contour = contours.get(i);
+	        Moments moments = Imgproc.moments(contour);
+	        Point center = new Point(moments.m10 / moments.m00, moments.m01 / moments.m00);
+	        double area = Imgproc.contourArea(contour);
 	        if (area > maxArea) {
 	            maxArea = area;
-	            maxRect = rect;
+	            maxCenter = center;
+	            maxRadius = (int) Math.sqrt(area / Math.PI);
 	        }
 	    }
-	    
-		Scalar color = new Scalar(0, 255, 0); // Green
 
-	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2);
-
-	    System.out.println(getLength(7400/7.5, 19, 20, Math.abs(maxRect.tl().x - maxRect.br().x)));
-	    
+	    Scalar color = new Scalar(0, 255, 0); // Green
+	    Imgproc.circle(frame, maxCenter, maxRadius, color, 2);
+	    //print distance from object
+	    System.out.println(getLength(CameraSettings.FOCAL_LENGTH, CameraSettings.OBJECT_RADIUS, maxRadius));
 	}
+
 	
 	
-	private double getLength(double focalLength, double height , double width, double pixels) {
-		return Math.max((focalLength * width) / pixels, (focalLength * height) / pixels);
+	private double getLength(double focalLength, double radius, double pixels) {
+		return (focalLength * radius) / pixels;
 	}
 	
 	private double getYaw(double targetPixelPosX, double horizontalFOV, int resolutionX) {

@@ -6,6 +6,7 @@ public interface CameraSettings {
 	public final double HORIZONTAL_FOV = 60;
 	public final int RESOLUTION_X = 1920;
 	public final int RESOLUTION_Y = 1080;
+	public final double OBJECT_RADIUS = 5.5;
 	
 	
 }
