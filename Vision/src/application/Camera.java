@@ -17,6 +17,8 @@ import org.opencv.videoio.VideoCapture;
 public class Camera {
 	private Mat frame, binary, processed;
 	private VideoCapture video;
+	private double objectPixelRadius = 0;
+	private double objectPixelPosX = 0;
 	
 
 	public Camera(VideoCapture video) {
@@ -25,6 +27,21 @@ public class Camera {
 		processed = new Mat();
 		
 		this.video = video;
+	}
+	
+	/**
+	 * Get distance from target
+	 * */
+	public double getDistance() {
+		return (CameraSettings.FOCAL_LENGTH * CameraSettings.OBJECT_RADIUS) / objectPixelRadius;
+	}
+	
+	/**
+	 * Get yaw angle from target
+	 * */
+	public double getYaw() {
+		double ratio = CameraSettings.HORIZONTAL_FOV / CameraSettings.RESOLUTION_X;
+		return (objectPixelPosX - CameraSettings.RESOLUTION_X / 2 ) * ratio;
 	}
 	
 	public Mat getFrame() {
@@ -41,19 +58,23 @@ public class Camera {
 	
 	public void updateFrame(double minH, double maxH, double minS, double maxS, double minV, double maxV, int dilate, int erode) {
 		Mat frameBlur = new Mat();
+		Mat hsvFrame = new Mat();
 		// get threshold values 
 		Scalar minValues = new Scalar(minH, minS, minV);
 		Scalar maxValues = new Scalar(maxH, maxS, maxV);
 			
 			video.read(frame);
 			if (!frame.empty()) {			      
-				
+				// convert from bgr to hsv
+		        Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
 				// clean some noise
-				Imgproc.blur(frame, frameBlur, new Size(7, 7));
+				Imgproc.blur(hsvFrame, frameBlur, new Size(7, 7));
 				//find pixels in threshold
 				Core.inRange(frameBlur, minValues, maxValues, binary);
 				
+				//process image
 				pipeline(erode, dilate);
+				//draw circle around detected object
 				drawCircle();
 			}
 			
@@ -72,31 +93,7 @@ public class Camera {
 		 	Imgproc.dilate(processed, processed, dilateElement);
 		 }
 	}
-	
-//	private void drawRect() {
-//		List<MatOfPoint> contours = new ArrayList<>();
-//		Mat hierarchy = new Mat();
-//
-//		Imgproc.findContours(processed, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-//
-//	    double maxArea = 0;
-//	    Rect maxRect = new Rect();
-//
-//	    for (int i = 0; i < contours.size(); i++) {
-//	        Rect rect = Imgproc.boundingRect(contours.get(i));
-//	        double area = Imgproc.contourArea(contours.get(i));
-//	        if (area > maxArea) {
-//	            maxArea = area;
-//	            maxRect = rect;
-//	        }
-//	    }
-//	    
-//		Scalar color = new Scalar(0, 255, 0); // Green
-//		//draw rectangle
-//	    Imgproc.rectangle(frame, maxRect.tl(), maxRect.br(), color, 2)
-//	    
-//	    
-//	}
+
 	private void drawCircle() {
 	    List<MatOfPoint> contours = new ArrayList<>();
 	    Mat hierarchy = new Mat();
@@ -121,20 +118,11 @@ public class Camera {
 
 	    Scalar color = new Scalar(0, 255, 0); // Green
 	    Imgproc.circle(frame, maxCenter, maxRadius, color, 2);
-	    //print distance from object
-	    System.out.println(getLength(CameraSettings.FOCAL_LENGTH, CameraSettings.OBJECT_RADIUS, maxRadius));
+	    
+	    objectPixelRadius = maxRadius;
+	    objectPixelPosX = maxCenter.x;
 	}
 
-	
-	
-	private double getLength(double focalLength, double radius, double pixels) {
-		return (focalLength * radius) / pixels;
-	}
-	
-	private double getYaw(double targetPixelPosX, double horizontalFOV, int resolutionX) {
-		double ratio = horizontalFOV / resolutionX;
-		return (targetPixelPosX - resolutionX /2 ) * ratio;
-	}
 	
 	
 	

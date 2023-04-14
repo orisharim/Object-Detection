@@ -75,9 +75,13 @@ public class GUIcontroller
 			while(true) {
 				updateHSV();
 				camera.updateFrame(minH.getValue(), maxH.getValue(), minS.getValue(), maxS.getValue(), minV.getValue(), maxV.getValue(), (int)erode.getValue(), (int)dilate.getValue());
+				
 				normalImage.setImage(Utils.matToImage(camera.getFrame()));
 				processedImage.setImage(Utils.matToImage(camera.getProcessed()));
 				binaryImage.setImage(Utils.matToImage(camera.getBinary()));
+				
+				System.out.println("Distance: " + camera.getDistance());
+				System.out.println("Angle: " + camera.getYaw());
 			}
 			
 		});
