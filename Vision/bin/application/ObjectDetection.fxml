@@ -60,7 +60,7 @@
             <Slider fx:id="maxV" blockIncrement="1.0" max="255.0" value="255.0" />
             <Button fx:id="startCamera" mnemonicParsing="false" prefHeight="49.0" prefWidth="213.0" text="start camera" onAction="#startCamera" />
             <Button fx:id="stopCamera" mnemonicParsing="false" prefHeight="49.0" prefWidth="213.0" text="stop camera" onAction="#stopCamera"/>
-            <TextArea fx:id="hsvVals" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="values" prefHeight="200.0" prefWidth="200.0" />
             <TextArea prefHeight="24.0" prefWidth="213.0" promptText="dilate" />
             <Slider fx:id="dilate" prefHeight="25.0" prefWidth="96.0" blockIncrement="1.0" max="10" value="2" />
             <TextArea prefHeight="24.0" prefWidth="213.0" promptText="erode" />

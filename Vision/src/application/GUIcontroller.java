@@ -54,7 +54,7 @@ public class GUIcontroller
 	@FXML
 	private Slider maxV;
 	@FXML
-	private TextArea hsvVals;
+	private TextArea values;
 	@FXML
 	private Slider erode;
 	@FXML
@@ -79,9 +79,7 @@ public class GUIcontroller
 				normalImage.setImage(Utils.matToImage(camera.getFrame()));
 				processedImage.setImage(Utils.matToImage(camera.getProcessed()));
 				binaryImage.setImage(Utils.matToImage(camera.getBinary()));
-				
-				System.out.println("Distance: " + camera.getDistance());
-				System.out.println("Angle: " + camera.getYaw());
+
 			}
 			
 		});
@@ -107,9 +105,10 @@ public class GUIcontroller
 		double valueStartVal = minV.getValue();
 		double valueEndVal = maxV.getValue();
 		
-		hsvVals.setText("hue " + hueStartVal + "-" + hueEndVal + "\n" + 
+		values.setText("hue " + hueStartVal + "-" + hueEndVal + "\n" + 
 		"saturation " + saturationStartVal + "-" + saturationEndtVal + "\n" + 
-		"value " + valueStartVal + "-" + valueEndVal);
+		"value " + valueStartVal + "-" + valueEndVal + "\n" + "Distance:" + camera.getDistance()
+		+ "\n" + "yaw:" + camera.getYaw());
 	}
 
 }

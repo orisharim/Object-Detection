@@ -117,6 +117,7 @@ public class Camera {
 	    }
 
 	    Scalar color = new Scalar(0, 255, 0); // Green
+	    //draw circle around object
 	    Imgproc.circle(frame, maxCenter, maxRadius, color, 2);
 	    
 	    objectPixelRadius = maxRadius;
