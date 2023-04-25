@@ -73,7 +73,7 @@ public class GUIcontroller
 		camera = new Camera(video);
 		thread = new Thread(() -> {
 			while(true) {
-				updateHSV();
+				updateValues();
 				camera.updateFrame(minH.getValue(), maxH.getValue(), minS.getValue(), maxS.getValue(), minV.getValue(), maxV.getValue(), (int)erode.getValue(), (int)dilate.getValue());
 				
 				normalImage.setImage(Utils.matToImage(camera.getFrame()));
@@ -96,8 +96,8 @@ public class GUIcontroller
 	}
 	
 
-	//update hsvVals text
-	private void updateHSV() {
+	//update values text
+	private void updateValues() {
 		double hueStartVal = minH.getValue();
 		double hueEndVal   = maxH.getValue();
 		double saturationStartVal = minS.getValue();
